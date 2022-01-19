@@ -1,25 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 
-class BooksApp extends React.Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
-  }
+const BooksApp = () => {
 
-  render() {
+  const [showSearchPage,setShowSearchPage] = useState(false)
+  
     return (
       <div className="app">
         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+              <button className="close-search" onClick={() => setShowSearchPage(false) }>Close</button>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -194,13 +186,12 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <button onClick={() => setShowSearchPage(true)}>Add a book</button>
             </div>
           </div>
         )}
       </div>
     )
   }
-}
 
 export default BooksApp
