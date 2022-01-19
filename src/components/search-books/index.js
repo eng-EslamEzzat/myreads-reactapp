@@ -1,12 +1,13 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 const SearchBooks = props => {
 
-    const {setShowSearchPage} = props
+    let navigete = useNavigate()
     return(
         <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => setShowSearchPage(false)} >Close</button>
+              <button className="close-search" onClick={() => navigete('/')} >Close</button>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
