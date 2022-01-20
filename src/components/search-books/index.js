@@ -1,31 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import * as BooksAPI from '../../BooksAPI';
+import BooksGrid from '../books-grid';
+import {setSearchedBooks} from '../../redux/actions'
+import { connect } from 'react-redux';
+import { SEARCHED_BOOKS } from '../../redux/types';
 
 const SearchBooks = props => {
-
     let navigete = useNavigate()
+
+    const {searchedBooks, setSearchedBooks} = props
+    const [text, setText] = useState('')
+
+    const changeHandling = e =>{
+      const {value} = e.target
+      setText(value)
+      value? BooksAPI.search(value).then(
+        books => setSearchedBooks(Array.isArray(books)? books: [])
+      ).catch((error) => {
+        console.error('Error:', error);
+      }):
+      setSearchedBooks([])
+    }
+
     return(
         <div className="search-books">
             <div className="search-books-bar">
               <button className="close-search" onClick={() => navigete('/')} >Close</button>
               <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
+                <input onChange={changeHandling} value={text} type="text" placeholder="Search by title or author"/>
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <BooksGrid type={SEARCHED_BOOKS}/>
             </div>
           </div>
     )
 }
 
-export default SearchBooks;
+const mapStateToProps = state => ({
+  searchedBooks: state.searchedBooks
+})
+
+const mapDispatchToProps = {
+  setSearchedBooks
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBooks);

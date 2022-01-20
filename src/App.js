@@ -1,37 +1,47 @@
-import React from 'react'
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react'
+import { connect, useDispatch,  } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBooks from './components/list-books';
 import SearchBooks from './components/search-books';
-import {MTcurrentlyReading, MTwantToRead, MTread, MTnone} from './redux/actions'
+import {setSearchedBooks, setCurrentlyReading, setWantToRead, setRead} from './redux/actions'
+import * as BooksAPI from './BooksAPI';
 
-const BooksApp = () => {
-  
-    return (
-      <div className="app">
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<ListBooks />} />
-          <Route path='/search' element={<SearchBooks />} />       
-        </Routes>
-      </BrowserRouter>
-      </div>
-    )
+const BooksApp = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      BooksAPI.getAll().then(books => {
+      dispatch(setCurrentlyReading(books.filter(book=>book.shelf==="currentlyReading")))
+      dispatch(setWantToRead(books.filter(book=>book.shelf==="wantToRead")))
+      dispatch(setRead(books.filter(book=>book.shelf==="read")))
+      })
+  },[dispatch])
+
+  return (
+    <div className="app">
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<ListBooks />} />
+        <Route path='/search' element={<SearchBooks />} />       
+      </Routes>
+    </BrowserRouter>
+    </div>
+  )
   }
 
 const mapStateToProps = (state) => ({
+  searchedBooks: state.searchedBooks,
   currentlyReading: state.currentlyReading,
   wantToRead: state.wantToRead,
   read: state.read
 })
 
 const mapDispatchToProps = {
-  MTcurrentlyReading,
-  MTwantToRead,
-  MTread,
-  MTnone
+  setSearchedBooks,
+  setCurrentlyReading,
+  setWantToRead,
+  setRead,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BooksApp)
