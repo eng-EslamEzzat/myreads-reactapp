@@ -27,7 +27,6 @@ const BooksGrid = props => {
         }
     }
 
-    const dispatch = useDispatch();
 
     const changeHandler = (e,book) => {
         const shelf = e.target.value;
@@ -51,15 +50,16 @@ const BooksGrid = props => {
     return(
         <ol className="books-grid">
             {Array.isArray(books(props.type)) && books(props.type).map(book => {
+                //if book is exist in any shelf (booka)
                 const booka = currentlyReading.find(e=>e.id === book.id)||wantToRead.find(e=>e.id === book.id)||read.find(e=>e.id === book.id)
-                console.log(book.imageLinks.smallThumbnail || "lol")
+                booka && (book=booka)
                 return(
                 <li key={book.id}>
                     <div className="book">
                         <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(book.imageLinks  && book.imageLinks.smallThumbnail)})`}}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks  && book.imageLinks.smallThumbnail})`}}></div>
                             <div className="book-shelf-changer">
-                            <select defaultValue={(booka !== undefined&&booka.shelf)||"move"} onChange={(e)=>changeHandler(e,book)}>
+                            <select defaultValue={book.shelf||"move"} onChange={(e)=>changeHandler(e,book)}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -69,7 +69,7 @@ const BooksGrid = props => {
                             </div>
                         </div>
                         <div className="book-title">{book.title}</div>
-                        <div className="book-authors">{[book.authors].join(', ')}</div>
+                        <div className="book-authors">{book.authors&&book.authors.join(', ')}</div>
                     </div>
                 </li>
             )})}

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css'
 import ListBooks from './components/list-books';
 import SearchBooks from './components/search-books';
-import {setSearchedBooks, setCurrentlyReading, setWantToRead, setRead} from './redux/actions'
+import {setCurrentlyReading, setWantToRead, setRead} from './redux/actions'
 import * as BooksAPI from './BooksAPI';
 
 const BooksApp = (props) => {
@@ -30,18 +30,10 @@ const BooksApp = (props) => {
   )
   }
 
-const mapStateToProps = (state) => ({
-  searchedBooks: state.searchedBooks,
-  currentlyReading: state.currentlyReading,
-  wantToRead: state.wantToRead,
-  read: state.read
-})
-
 const mapDispatchToProps = {
-  setSearchedBooks,
   setCurrentlyReading,
   setWantToRead,
   setRead,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BooksApp)
+export default connect(null, mapDispatchToProps)(BooksApp)

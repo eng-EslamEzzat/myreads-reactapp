@@ -8,6 +8,7 @@ const initState = {
 }
 
 export default (state = initState, action) => {
+    let currentlyBooks = []
     switch (action.type) {
         case SEARCHED_BOOKS:
             return {...state, searchedBooks: action.books}
@@ -22,47 +23,54 @@ export default (state = initState, action) => {
             return {...state, read: action.books}
 
         case MT_CURRENTLY_READING:
+            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'read'){
-                const currentlyReading = state.read.filter(b => b.id !== action.book.id)
-                return {...state, read:currentlyReading, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
+                currentlyBooks = state.read.filter(b => b.id !== action.book.id)
+                return {...state, read:currentlyBooks, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
             }
             else if (action.book.shelf === 'wantToRead'){
-                const currentlyReading = state.wantToRead.filter(b => b.id !== action.book.id)
-                return {...state, wantToRead:currentlyReading, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
+                currentlyBooks = state.wantToRead.filter(b => b.id !== action.book.id)
+                return {...state, wantToRead:currentlyBooks, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
             }
+            return {...state, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
 
         case MT_WANT_TO_READ:
+            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'currentlyReading'){
-                const currentlyReading = state.currentlyReading.filter(b => b.id !== action.book.id)
-                return {...state, currentlyReading:currentlyReading, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
+                currentlyBooks = state.currentlyReading.filter(b => b.id !== action.book.id)
+                return {...state, currentlyReading:currentlyBooks, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
             }
             else if (action.book.shelf === 'read'){
-                const currentlyReading = state.read.filter(b => b.id !== action.book.id)
-                return {...state, read:currentlyReading, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
+                currentlyBooks = state.read.filter(b => b.id !== action.book.id)
+                return {...state, read:currentlyBooks, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
             }
+            return {...state, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
 
         case MT_READ:
+            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'currentlyReading'){
-                const currentlyReading = state.currentlyReading.filter(b => b.id !== action.book.id)
-                return {...state, currentlyReading:currentlyReading, read:[...state.read, {...action.book, shelf:"read"}]}
+                currentlyBooks = state.currentlyReading.filter(b => b.id !== action.book.id)
+                return {...state, currentlyReading:currentlyBooks, read:[...state.read, {...action.book, shelf:"read"}]}
             }
             else if (action.book.shelf === 'wantToRead'){
-                const currentlyReading = state.wantToRead.filter(b => b.id !== action.book.id)
-                return {...state, wantToRead:currentlyReading, read:[...state.read, {...action.book, shelf:"read"}]}
+                currentlyBooks = state.wantToRead.filter(b => b.id !== action.book.id)
+                return {...state, wantToRead:currentlyBooks, read:[...state.read, {...action.book, shelf:"read"}]}
             }
+            return {...state, read:[...state.read, {...action.book, shelf:"read"}]}
 
         case MT_NONE:
+            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'currentlyReading'){
-                const currentlyReading = state.currentlyReading.filter(b => b.id !== action.book.id)
-                return {...state, currentlyReading:currentlyReading}
+                currentlyBooks = state.currentlyReading.filter(b => b.id !== action.book.id)
+                return {...state, currentlyReading:currentlyBooks}
             }
             else if (action.book.shelf === 'wantToRead'){
-                const currentlyReading = state.wantToRead.filter(b => b.id !== action.book.id)
-                return {...state, wantToRead:currentlyReading}
+                currentlyBooks = state.wantToRead.filter(b => b.id !== action.book.id)
+                return {...state, wantToRead:currentlyBooks}
             }
             else if (action.book.shelf === 'read'){
-                const currentlyReading = state.read.filter(b => b.id !== action.book.id)
-                return {...state, read:currentlyReading}
+                currentlyBooks = state.read.filter(b => b.id !== action.book.id)
+                return {...state, read:currentlyBooks}
             }
 
         default:
