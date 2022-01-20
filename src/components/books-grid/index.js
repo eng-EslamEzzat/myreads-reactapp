@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { CURRENTLY_READING, READ, WANT_TO_READ, SEARCHED_BOOKS } from '../../redux/types';
 import {MTCurrentlyReading,MTWantToRead,MTRead,MTNone} from '../../redux/actions'
 import {update} from '../../BooksAPI';

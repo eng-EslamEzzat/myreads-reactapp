@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect, useDispatch,  } from 'react-redux';
+import { connect } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css'
 import ListBooks from './components/list-books';
@@ -8,15 +8,14 @@ import {setCurrentlyReading, setWantToRead, setRead} from './redux/actions'
 import * as BooksAPI from './BooksAPI';
 
 const BooksApp = (props) => {
-  const dispatch = useDispatch();
 
   useEffect(() => {
       BooksAPI.getAll().then(books => {
-      dispatch(setCurrentlyReading(books.filter(book=>book.shelf==="currentlyReading")))
-      dispatch(setWantToRead(books.filter(book=>book.shelf==="wantToRead")))
-      dispatch(setRead(books.filter(book=>book.shelf==="read")))
+        props.setCurrentlyReading(books.filter(book=>book.shelf==="currentlyReading"))
+        props.setWantToRead(books.filter(book=>book.shelf==="wantToRead"))
+        props.setRead(books.filter(book=>book.shelf==="read"))
       })
-  },[dispatch])
+  })
 
   return (
     <div className="app">

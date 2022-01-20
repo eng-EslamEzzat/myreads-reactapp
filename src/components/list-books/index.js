@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import BooksGrid from '../books-grid';
-import {setCurrentlyReading, setWantToRead, setRead} from '../../redux/actions'
 import { CURRENTLY_READING, READ, WANT_TO_READ} from '../../redux/types';
 
 
-const ListBooks = props => {
+const ListBooks = () => {
 
     let navigete = useNavigate()
     
@@ -44,15 +43,4 @@ const ListBooks = props => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    currentlyReading: state.currentlyReading,
-    wantToRead: state.wantToRead,
-    read: state.read
-})
-
-const mapDispatchToProps = {
-    setCurrentlyReading,
-    setWantToRead,
-    setRead,
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ListBooks);
+export default connect(null)(ListBooks);

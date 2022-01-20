@@ -23,7 +23,6 @@ export default (state = initState, action) => {
             return {...state, read: action.books}
 
         case MT_CURRENTLY_READING:
-            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'read'){
                 currentlyBooks = state.read.filter(b => b.id !== action.book.id)
                 return {...state, read:currentlyBooks, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
@@ -35,7 +34,6 @@ export default (state = initState, action) => {
             return {...state, currentlyReading:[...state.currentlyReading, {...action.book, shelf:"currentlyReading"}]}
 
         case MT_WANT_TO_READ:
-            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'currentlyReading'){
                 currentlyBooks = state.currentlyReading.filter(b => b.id !== action.book.id)
                 return {...state, currentlyReading:currentlyBooks, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
@@ -47,7 +45,6 @@ export default (state = initState, action) => {
             return {...state, wantToRead:[...state.wantToRead, {...action.book, shelf:"wantToRead"}]}
 
         case MT_READ:
-            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'currentlyReading'){
                 currentlyBooks = state.currentlyReading.filter(b => b.id !== action.book.id)
                 return {...state, currentlyReading:currentlyBooks, read:[...state.read, {...action.book, shelf:"read"}]}
@@ -59,7 +56,6 @@ export default (state = initState, action) => {
             return {...state, read:[...state.read, {...action.book, shelf:"read"}]}
 
         case MT_NONE:
-            console.log(action.book, action.book.shelf)
             if (action.book.shelf === 'currentlyReading'){
                 currentlyBooks = state.currentlyReading.filter(b => b.id !== action.book.id)
                 return {...state, currentlyReading:currentlyBooks}
@@ -72,7 +68,8 @@ export default (state = initState, action) => {
                 currentlyBooks = state.read.filter(b => b.id !== action.book.id)
                 return {...state, read:currentlyBooks}
             }
-
+            return state
+            
         default:
             return state
     }

@@ -6,10 +6,9 @@ import {setSearchedBooks} from '../../redux/actions'
 import { connect } from 'react-redux';
 import { SEARCHED_BOOKS } from '../../redux/types';
 
-const SearchBooks = props => {
+const SearchBooks = (props) => {
     let navigete = useNavigate()
-
-    const {searchedBooks, setSearchedBooks} = props
+    const {setSearchedBooks} = props
     const [text, setText] = useState('')
 
     const changeHandling = e =>{
@@ -38,11 +37,7 @@ const SearchBooks = props => {
     )
 }
 
-const mapStateToProps = state => ({
-  searchedBooks: state.searchedBooks
-})
-
 const mapDispatchToProps = {
   setSearchedBooks
 }
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBooks);
+export default connect(null, mapDispatchToProps)(SearchBooks);
