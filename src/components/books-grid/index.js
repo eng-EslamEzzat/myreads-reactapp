@@ -57,7 +57,7 @@ const BooksGrid = props => {
                 <li key={book.id}>
                     <div className="book">
                         <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(book.imageLinks.smallThumbnail  && book.imageLinks.smallThumbnail)})`}}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(book.imageLinks  && book.imageLinks.smallThumbnail)})`}}></div>
                             <div className="book-shelf-changer">
                             <select defaultValue={(booka !== undefined&&booka.shelf)||"move"} onChange={(e)=>changeHandler(e,book)}>
                                 <option value="move" disabled>Move to...</option>
